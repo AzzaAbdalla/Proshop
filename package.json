@@ -8,13 +8,19 @@
     "start": "node Backend/server.js",
     "server": "nodemon Backend/server.js",
     "client": "npm start --prefix Frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "data:import": "node Backend/seeder.js",
+    "data:destroy": "node Backend/seeder.js -d"
   },
   "author": "Azza",
   "license": "MIT",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "colors": "^1.4.0",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.4"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
