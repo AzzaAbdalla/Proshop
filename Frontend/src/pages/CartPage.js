@@ -10,6 +10,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
+import { addToCart, removeFromCart } from "../slices/cartSlice";
 import Message from "../components/Message";
 
 const CartPage = () => {
@@ -17,6 +18,16 @@ const CartPage = () => {
   const dispatche = useDispatch();
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
+
+  const addToCartHandler = async (product, qty) => {
+    dispatche(addToCart({ ...product, qty }));
+  };
+  const removeFromCartHandler = async (id) => {
+    dispatche(removeFromCart(id));
+  };
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
+  };
 
   return (
     <Row>
@@ -45,7 +56,7 @@ const CartPage = () => {
                       as="select"
                       value={item.qty}
                       onChange={(e) => {
-                        // setQty(Number(e.target.value));
+                        addToCartHandler(item, Number(e.target.value));
                         // product.countInStock -= qty;
                       }}
                     >
@@ -59,7 +70,11 @@ const CartPage = () => {
                     </Form.Control>
                   </Col>
                   <Col md={2}>
-                    <Button type="button" variant="light">
+                    <Button
+                      type="button"
+                      variant="light"
+                      onClick={() => removeFromCartHandler(item._id)}
+                    >
                       <FaTrash />
                     </Button>
                   </Col>
@@ -68,6 +83,34 @@ const CartPage = () => {
             ))}
           </ListGroup>
         )}
+      </Col>
+      <Col>
+        <Card style={{ marginTop: "15px" }}>
+          <ListGroup variant="flush" className="text-center">
+            <ListGroup.Item>
+              <h2>
+                Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
+                Items
+              </h2>
+              <p className="text-success">
+                $
+                {cartItems
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)}
+              </p>
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <Button
+                type="button"
+                className="btn-success text-white"
+                disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
+              >
+                Proceed To Checkout
+              </Button>
+            </ListGroup.Item>
+          </ListGroup>
+        </Card>
       </Col>
     </Row>
   );
