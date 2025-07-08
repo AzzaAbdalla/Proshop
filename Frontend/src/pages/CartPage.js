@@ -10,6 +10,7 @@ import {
   Button,
 } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
+import { addToCart, removeFromCart } from "../slices/cartSlice";
 import Message from "../components/Message";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
 
@@ -19,14 +20,12 @@ const CartPage = () => {
   const cart = useSelector((state) => state.cart);
   const { cartItems } = cart;
 
-  const addToCartHandler = (product, qty) => {
-    dispatch(addToCart({ ...product, qty }));
+  const addToCartHandler = async (product, qty) => {
+    dispatche(addToCart({ ...product, qty }));
   };
-
-  const removeFromCartHandler = (id) => {
-    dispatch(removeFromCart(id));
+  const removeFromCartHandler = async (id) => {
+    dispatche(removeFromCart(id));
   };
-
   const checkoutHandler = () => {
     navigate("/login?redirect=/shipping");
   };
@@ -59,7 +58,6 @@ const CartPage = () => {
                       value={item.qty}
                       onChange={(e) => {
                         addToCartHandler(item, Number(e.target.value));
-                        // setQty(Number(e.target.value));
                         // product.countInStock -= qty;
                       }}
                     >
@@ -87,25 +85,29 @@ const CartPage = () => {
           </ListGroup>
         )}
       </Col>
-      <Col md={4}>
-        <Card>
-          <ListGroup variant="flush">
+      <Col>
+        <Card style={{ marginTop: "15px" }}>
+          <ListGroup variant="flush" className="text-center">
             <ListGroup.Item>
               <h2>
                 Subtotal ({cartItems.reduce((acc, item) => acc + item.qty, 0)})
-                items
+                Items
               </h2>
-              $
-              {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
-                .toFixed(2)}
+              <p className="text-success">
+                $
+                {cartItems
+                  .reduce((acc, item) => acc + item.qty * item.price, 0)
+                  .toFixed(2)}
+              </p>
+
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
                 type="button"
-                className="btn-block"
+                className="btn-success text-white"
                 disabled={cartItems.length === 0}
-                onClick={() => checkoutHandler()}
+                onClick={checkoutHandler}
+
               >
                 Proceed To Checkout
               </Button>
