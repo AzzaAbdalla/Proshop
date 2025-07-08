@@ -3,6 +3,7 @@ import asyncHandler from "../middleware/asyncHandler.js";
 import generateToken from "../utils/generateToken.js";
 
 // @desc Auth user and get token
+
 // @route POST /api/users/login
 // @access Public
 const authUser = asyncHandler(async (req, res) => {
@@ -13,6 +14,7 @@ const authUser = asyncHandler(async (req, res) => {
     generateToken(res, user._id);
 
     res.status(200).json({
+
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -65,6 +67,7 @@ const logout = asyncHandler(async (req, res) => {
   });
 
   res.status(200).json({ message: "Logged out successfully" });
+
 });
 
 // @desc Get user profile
@@ -84,6 +87,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("User not found");
   }
+
 });
 
 // @desc Update user profile
@@ -130,6 +134,7 @@ const getUserById = asyncHandler(async (req, res) => {
 // @access Private/Admin
 const updateUser = asyncHandler(async (req, res) => {
   res.json("update user");
+
 });
 
 // @desc Delete user
@@ -137,6 +142,7 @@ const updateUser = asyncHandler(async (req, res) => {
 // @access Private/Admin
 const deleteUser = asyncHandler(async (req, res) => {
   res.json("delete user");
+
 });
 
 export {
@@ -149,4 +155,5 @@ export {
   getUserById,
   updateUser,
   deleteUser,
+
 };
