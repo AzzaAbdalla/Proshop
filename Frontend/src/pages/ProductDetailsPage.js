@@ -90,6 +90,15 @@ const ProductDetailsPage = () => {
                             value={qty}
                             onChange={(e) => {
                               setQty(Number(e.target.value));
+                              {
+                                [...Array(product.countInStock).keys()].map(
+                                  (item) => (
+                                    <option key={item + 1} value={item + 1}>
+                                      {item + 1}
+                                    </option>
+                                  )
+                                );
+                              } //ceeates an array of numbers from 0 to countInStock - 1
                               // product.countInStock -= qty;
                             }}
                           >
