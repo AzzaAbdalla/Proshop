@@ -12,7 +12,6 @@ import {
 import { FaTrash } from "react-icons/fa";
 import { addToCart, removeFromCart } from "../slices/cartSlice";
 import Message from "../components/Message";
-import { addToCart, removeFromCart } from "../slices/cartSlice";
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -21,10 +20,10 @@ const CartPage = () => {
   const { cartItems } = cart;
 
   const addToCartHandler = async (product, qty) => {
-    dispatche(addToCart({ ...product, qty }));
+    dispatch(addToCart({ ...product, qty }));
   };
   const removeFromCartHandler = async (id) => {
-    dispatche(removeFromCart(id));
+    dispatch(removeFromCart(id));
   };
   const checkoutHandler = () => {
     navigate("/login?redirect=/shipping");
@@ -99,7 +98,6 @@ const CartPage = () => {
                   .reduce((acc, item) => acc + item.qty * item.price, 0)
                   .toFixed(2)}
               </p>
-
             </ListGroup.Item>
             <ListGroup.Item>
               <Button
@@ -107,7 +105,6 @@ const CartPage = () => {
                 className="btn-success text-white"
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
-
               >
                 Proceed To Checkout
               </Button>

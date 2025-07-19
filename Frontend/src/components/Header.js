@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../slices/authSlice";
 import { useLogoutMutation } from "../slices/usersApiSlice";
 import logo from "../assets/logo.png";
+import SearchBox from "./SearchBox";
 
 const Header = () => {
   const { cartItems } = useSelector((state) => state.cart);
@@ -36,6 +37,7 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
+              <SearchBox />
               <Link to="/cart">
                 <Nav.Link href="/cart">
                   <FaShoppingCart /> Cart
@@ -63,6 +65,25 @@ const Header = () => {
                     <FaUser /> Sign In
                   </Nav.Link>
                 </Link>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <NavDropdown.Item>
+                    <Link to="/admin/productlist" className="text-secondary">
+                      Products
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to="/admin/userlist" className="text-secondary">
+                      Users
+                    </Link>
+                  </NavDropdown.Item>
+                  <NavDropdown.Item>
+                    <Link to="/admin/orderlist" className="text-secondary">
+                      Orders
+                    </Link>
+                  </NavDropdown.Item>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>

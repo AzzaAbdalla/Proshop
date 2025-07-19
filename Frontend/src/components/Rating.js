@@ -1,6 +1,6 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 
-const Rating = ({ rating, reviews }) => {
+const Rating = ({ rating = 0, reviews = 0 }) => {
   return (
     <div className="rating">
       <span>
