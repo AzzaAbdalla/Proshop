@@ -23,7 +23,12 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: [
+      "*",
+      "https://proshop-6ik4.onrender.com",
+      "https://your-backend-service.onrender.com/api/products",
+    ],
+    methods: ["GET", "POST"],
     credentials: true,
   })
 );
@@ -49,7 +54,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../Frontend", "build", "index.html"))
   );
 } else {
-  app.get("/", (req, res) => {
+  app.get("/", (_, res) => {
     res.send("API Is Working ..");
   });
 }

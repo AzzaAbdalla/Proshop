@@ -4,7 +4,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: ({ keyword, pageNumber }) => ({
-        url: "/api/products",
+        url: "/products",
         params: { keyword, pageNumber },
       }),
       providesTags: ["Product"],
@@ -12,13 +12,13 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
-        url: `/api/products/${productId}`,
+        url: `/products/${productId}`,
       }),
       keepUnusedDataFor: 5,
     }),
     createProduct: builder.mutation({
       query: () => ({
-        url: "/api/products",
+        url: "/products",
         method: "POST",
         //   body: productData,
       }),
@@ -26,7 +26,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     updateProduct: builder.mutation({
       query: (data) => ({
-        url: `/api/products/${data.productId}`,
+        url: `/products/${data.productId}`,
         method: "PUT",
         body: data,
       }),
@@ -34,20 +34,20 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     uploadProductImage: builder.mutation({
       query: (data) => ({
-        url: `/api/upload`,
+        url: `/upload`,
         method: "POST",
         body: data,
       }),
     }),
     deleteProduct: builder.mutation({
       query: (productId) => ({
-        url: `/api/products/${productId}`,
+        url: `/products/${productId}`,
         method: "DELETE",
       }),
     }),
     createReview: builder.mutation({
       query: (data) => ({
-        url: `/api/products/${data.productId}/reviews`,
+        url: `/products/${data.productId}/reviews`,
         method: "POST",
         body: data,
       }),
@@ -55,7 +55,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     getTopProducts: builder.query({
       query: () => ({
-        url: `/api/products/top`,
+        url: `/products/top`,
       }),
       keepUnusedDataFor: 5,
     }),
