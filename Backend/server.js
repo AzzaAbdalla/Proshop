@@ -42,11 +42,11 @@ const __dirname = dirname(__filename);
 
 if (process.env.NODE_ENV === "production") {
   //set static folder
-  app.use(express.static(path.join(__dirname, "/frontend/build")));
+  app.use(express.static(path.join(__dirname, "/Frontend/build")));
 
   //any route that is not api will be redirected to index.html
   app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+    res.sendFile(path.resolve(__dirname, "Frontend", "build", "index.html"))
   );
 } else {
   app.get("/", (req, res) => {
