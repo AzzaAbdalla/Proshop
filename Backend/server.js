@@ -23,12 +23,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: [
-      "*",
-      "https://proshop-6ik4.onrender.com",
-      "https://your-backend-service.onrender.com/api/products",
-    ],
-    methods: ["GET", "POST"],
+    origin: ["http://localhost:3000"],
     credentials: true,
   })
 );

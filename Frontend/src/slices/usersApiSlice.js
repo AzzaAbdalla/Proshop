@@ -6,53 +6,53 @@ export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (data) => ({
-        url: `${USER_URL}/login`,
+        url: `/users/login`,
         method: "POST",
         body: data,
       }),
     }),
     register: builder.mutation({
       query: (data) => ({
-        url: `${USER_URL}`,
+        url: `/users`,
         method: "POST",
         body: data,
       }),
     }),
     logout: builder.mutation({
       query: () => ({
-        url: `${USER_URL}/logout`,
+        url: `/users/logout`,
         method: "POST",
       }),
     }),
     profile: builder.mutation({
       query: (data) => ({
-        url: `${USER_URL}/profile`,
+        url: `/users/profile`,
         method: "PUT",
         body: data,
       }),
     }),
     getUsers: builder.query({
       query: () => ({
-        url: `${USER_URL}`,
+        url: `/users`,
       }),
       prodvideTags: ["Users"],
       keepUnusedDataFor: 5,
     }),
     deleteUser: builder.mutation({
       query: (userId) => ({
-        url: `${USER_URL}/${userId}`,
+        url: `/users/${userId}`,
         method: "DELETE",
       }),
     }),
     getUserDetails: builder.query({
       query: (userId) => ({
-        url: `${USER_URL}/${userId}`,
+        url: `/users/${userId}`,
       }),
       keepUnusedDataFor: 5,
     }),
     updateUser: builder.mutation({
       query: (data) => ({
-        url: `${USER_URL}/${data.userId}`,
+        url: `/users/${data.userId}`,
         method: "PUT",
         body: data,
       }),
