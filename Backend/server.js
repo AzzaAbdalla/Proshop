@@ -28,9 +28,6 @@ app.use(
   })
 );
 const port = process.env.PORT || 5000; //differenet port than frontend port (3000)
-app.get("/", (req, res) => {
-  res.send("API Is Working ..");
-});
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -43,6 +40,19 @@ app.get("/api/config/paypal", (req, res) => {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+if (process.env.NODE_ENV === "production") {
+  //set static folder
+  app.use(express.static(path.join(__dirname, "../Frontend/build")));
+
+  //any route that is not api will be redirected to index.html
+  app.get("*", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "../Frontend", "build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("API Is Working ..");
+  });
+}
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(notFound);
