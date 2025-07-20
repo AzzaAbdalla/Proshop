@@ -1,10 +1,11 @@
 import { apiSlice } from "./apiSlice.js";
+import { PRODUCTS_URL, UPLOAD_URL } from "../constants.js";
 
 export const productApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: ({ keyword, pageNumber }) => ({
-        url: "/products",
+        url: PRODUCTS_URL,
         params: { keyword, pageNumber },
       }),
       providesTags: ["Product"],
@@ -12,13 +13,13 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     getProductDetails: builder.query({
       query: (productId) => ({
-        url: `/products/${productId}`,
+        url: `${PRODUCTS_URL}/${productId}`,
       }),
       keepUnusedDataFor: 5,
     }),
     createProduct: builder.mutation({
       query: () => ({
-        url: "/products",
+        url: PRODUCTS_URL,
         method: "POST",
         //   body: productData,
       }),
@@ -26,7 +27,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     updateProduct: builder.mutation({
       query: (data) => ({
-        url: `/products/${data.productId}`,
+        url: `${PRODUCTS_URL}/${data.productId}`,
         method: "PUT",
         body: data,
       }),
@@ -34,20 +35,20 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     uploadProductImage: builder.mutation({
       query: (data) => ({
-        url: `/upload`,
+        url: `${UPLOAD_URL}`,
         method: "POST",
         body: data,
       }),
     }),
     deleteProduct: builder.mutation({
       query: (productId) => ({
-        url: `/products/${productId}`,
+        url: `${PRODUCTS_URL}/${productId}`,
         method: "DELETE",
       }),
     }),
     createReview: builder.mutation({
       query: (data) => ({
-        url: `/products/${data.productId}/reviews`,
+        url: `${PRODUCTS_URL}/${data.productId}/reviews`,
         method: "POST",
         body: data,
       }),
@@ -55,7 +56,7 @@ export const productApiSlice = apiSlice.injectEndpoints({
     }),
     getTopProducts: builder.query({
       query: () => ({
-        url: `/products/top`,
+        url: `${PRODUCTS_URL}/top`,
       }),
       keepUnusedDataFor: 5,
     }),

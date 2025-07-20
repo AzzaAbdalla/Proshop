@@ -23,7 +23,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -49,11 +49,10 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "../Frontend", "build", "index.html"))
   );
 } else {
-  app.get("/", (_, res) => {
+  app.get("/", (req, res) => {
     res.send("API Is Working ..");
   });
 }
-
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(notFound);
