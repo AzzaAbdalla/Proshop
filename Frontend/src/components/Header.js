@@ -24,64 +24,75 @@ const Header = () => {
       console.log(err);
     }
   };
+
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
-          <Link to="/">
-            <Navbar.Brand>
-              <img src={logo} alt="Proshop" />
-              Proshop
-            </Navbar.Brand>
-          </Link>
+          <Navbar.Brand as={Link} to="/">
+            <img
+              src={logo}
+              alt="Proshop"
+              style={{ height: "30px", marginRight: "10px" }}
+            />
+            Proshop
+          </Navbar.Brand>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
+            <Nav className="ms-auto align-items-center">
               <SearchBox />
-              <Link to="/cart">
-                <Nav.Link href="/cart">
-                  <FaShoppingCart /> Cart
-                  {cartItems.length > 0 && (
-                    <Badge pill bg="success" style={{ marginLeft: "5px" }}>
-                      {cartItems.reduce((acc, item) => acc + item.qty, 0)}
-                    </Badge>
-                  )}
-                </Nav.Link>
-              </Link>
+
+              <Nav.Link as={Link} to="/cart">
+                <FaShoppingCart /> Cart
+                {cartItems.length > 0 && (
+                  <Badge pill bg="success" style={{ marginLeft: "5px" }}>
+                    {cartItems.reduce((acc, item) => acc + item.qty, 0)}
+                  </Badge>
+                )}
+              </Nav.Link>
+
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
-                  <NavDropdown.Item>
-                    <Link to="/profile" className="text-secondary">
-                      Profile
-                    </Link>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/profile"
+                    className="text-secondary"
+                  >
+                    Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutHandler}>
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Link to="/login">
-                  <Nav.Link href="/login">
-                    <FaUser /> Sign In
-                  </Nav.Link>
-                </Link>
+                <Nav.Link as={Link} to="/login">
+                  <FaUser /> Sign In
+                </Nav.Link>
               )}
+
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
-                  <NavDropdown.Item>
-                    <Link to="/admin/productlist" className="text-secondary">
-                      Products
-                    </Link>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/admin/productlist"
+                    className="text-secondary"
+                  >
+                    Products
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link to="/admin/userlist" className="text-secondary">
-                      Users
-                    </Link>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/admin/userlist"
+                    className="text-secondary"
+                  >
+                    Users
                   </NavDropdown.Item>
-                  <NavDropdown.Item>
-                    <Link to="/admin/orderlist" className="text-secondary">
-                      Orders
-                    </Link>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/admin/orderlist"
+                    className="text-secondary"
+                  >
+                    Orders
                   </NavDropdown.Item>
                 </NavDropdown>
               )}

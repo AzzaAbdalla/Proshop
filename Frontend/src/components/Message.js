@@ -1,11 +1,7 @@
 import { Alert } from "react-bootstrap";
 
-const Message = ({ variant, children }) => {
+const Message = ({ variant = "success", children }) => {
   return <Alert variant={variant}>{children}</Alert>;
-};
-
-Message.defaultProps = {
-  variant: "success",
 };
 
 export default Message;
