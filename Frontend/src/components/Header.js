@@ -18,6 +18,7 @@ const Header = () => {
   const logoutHandler = async () => {
     try {
       await logoutAPI().unwrap();
+      dispatch({ type: "cart/clearCart" });
       dispatch(logout());
       navigate("/login");
     } catch (err) {
@@ -30,11 +31,7 @@ const Header = () => {
       <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
         <Container>
           <Navbar.Brand as={Link} to="/">
-            <img
-              src={logo}
-              alt="Proshop"
-              style={{ height: "30px", marginRight: "10px" }}
-            />
+            <img src={logo} alt="Proshop" />
             Proshop
           </Navbar.Brand>
 
@@ -54,11 +51,7 @@ const Header = () => {
 
               {userInfo ? (
                 <NavDropdown title={userInfo.name} id="username">
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/profile"
-                    className="text-secondary"
-                  >
+                  <NavDropdown.Item as={Link} to="/profile">
                     Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item onClick={logoutHandler}>
@@ -73,25 +66,13 @@ const Header = () => {
 
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenu">
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/admin/productlist"
-                    className="text-secondary"
-                  >
+                  <NavDropdown.Item as={Link} to="/admin/productlist">
                     Products
                   </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/admin/userlist"
-                    className="text-secondary"
-                  >
+                  <NavDropdown.Item as={Link} to="/admin/userlist">
                     Users
                   </NavDropdown.Item>
-                  <NavDropdown.Item
-                    as={Link}
-                    to="/admin/orderlist"
-                    className="text-secondary"
-                  >
+                  <NavDropdown.Item as={Link} to="/admin/orderlist">
                     Orders
                   </NavDropdown.Item>
                 </NavDropdown>

@@ -1,13 +1,13 @@
-import { Pagination } from "react-bootstrap";
+import { Button, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const Paginate = ({ totalPages, page, isAdmin = false, keyword = "" }) => {
   return (
     totalPages > 1 && (
-      <Pagination>
+      <div>
         {Array.from({ length: totalPages }, (_, p) => (
-          <Pagination.Item key={p + 1} active={p + 1 === page}>
             <Link
+              key={p + 1} 
               to={
                 !isAdmin
                   ? keyword
@@ -17,11 +17,16 @@ const Paginate = ({ totalPages, page, isAdmin = false, keyword = "" }) => {
               }
               className="text-black"
             >
-              {p + 1}
+              <Button 
+                active={p + 1 === page} 
+                variant={p + 1 === page ? "light" : "primary"}
+                className="mx-1"
+              >
+                {p + 1}
+              </Button>
             </Link>
-          </Pagination.Item>
         ))}
-      </Pagination>
+      </div>
     )
   );
 };
