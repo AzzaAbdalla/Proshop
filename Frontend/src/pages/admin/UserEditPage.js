@@ -12,6 +12,7 @@ import { toast } from "react-toastify";
 
 const UserEditPage = () => {
   const { id: userId } = useParams();
+  const navigate = useNavigate();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,12 +22,9 @@ const UserEditPage = () => {
     data: user,
     isLoading,
     error,
-    refetch,
   } = useGetUserDetailsQuery(userId);
 
   const [updateUser, { isLoading: isUpdating }] = useUpdateUserMutation();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
@@ -36,30 +34,38 @@ const UserEditPage = () => {
     }
   }, [user]);
 
-  const SubmiHandler = async (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+    if (!name.trim() || !email.trim()) {
+      toast.error("Name and email are required.");
+      return;
+    }
     try {
       await updateUser({
         userId,
-        name,
-        email,
-      });
-      refetch();
-      toast.success("User updated successfully");
+        name: name.trim(),
+        email: email.trim(),
+        isAdmin,
+      }).unwrap();
+      toast.success(
+        isAdmin
+          ? `${name.trim()} can now manage the shop`
+          : `${name.trim()} was updated`
+      );
       navigate("/admin/userlist");
-    } catch (error) {
-      toast.error(error.data.message || error.error);
+    } catch (err) {
+      toast.error(err?.data?.message || err.error);
     }
   };
 
   return (
     <>
-      <Link to={`/admin/userlist`} className="btn btn-light my-3">
-        Go Back
+      <Link to="/admin/userlist" className="back-link">
+        Back to people
       </Link>
       <FormContainer>
-        <h1>Edit User</h1>
-        {isUpdating && <Loader />}
+        <p className="section-kicker">Admin</p>
+        <h1>Edit account</h1>
         {isLoading ? (
           <Loader />
         ) : error ? (
@@ -67,38 +73,47 @@ const UserEditPage = () => {
             {error?.data?.message || error.error}
           </Message>
         ) : (
-          <Form onSubmit={SubmiHandler}>
-            <Form.Group controlId="name">
+          <Form onSubmit={submitHandler} className="admin-form">
+            <Form.Group controlId="name" className="mb-3">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter user name"
+                placeholder="Full name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="email" className="mb-3">
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
-                placeholder="Enter user email"
+                placeholder="name@email.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
+              />
             </Form.Group>
 
-            <Form.Group controlId="isAdmin">
+            <Form.Group controlId="isAdmin" className="admin-switch">
               <Form.Check
-                type="checkbox"
-                label="Is Admin"
+                type="switch"
+                label="Admin access"
                 checked={isAdmin}
                 onChange={(e) => setIsAdmin(e.target.checked)}
-              ></Form.Check>
+              />
+              <p>
+                Admins can create products, manage orders, and edit other
+                accounts.
+              </p>
             </Form.Group>
 
-            <Button type="submit" variant="primary" className="my-3">
-              Update
+            <Button
+              type="submit"
+              variant="success"
+              className="my-3"
+              disabled={isUpdating}
+            >
+              {isUpdating ? "Saving..." : "Save changes"}
             </Button>
           </Form>
         )}

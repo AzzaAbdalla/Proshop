@@ -1,68 +1,54 @@
-import { Button, Col, Row, Table } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 import {
-  useCreateProductMutation,
   useDeleteProductMutation,
   useGetProductsQuery,
 } from "../../slices/productApiSlice";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
 import Message from "../../components/Message";
 import Loader from "../../components/Loader";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import Paginate from "../../components/Paginate";
 
 const ProductListPage = () => {
   const { pageNumber } = useParams();
+  const navigate = useNavigate();
   const { data, isLoading, error, refetch } = useGetProductsQuery({
     pageNumber,
   });
 
-  const [createProduct, { isLoading: loadingCreate }] =
-    useCreateProductMutation();
-
   const [deleteProduct, { isLoading: loadingDelete }] =
     useDeleteProductMutation();
 
-  const createProductHandler = async () => {
-    if (window.confirm("Are you sure you want to create a new product?")) {
-      try {
-        await createProduct();
-        refetch();
-      } catch (error) {
-        toast.error(error?.data?.message || error.error);
-      }
-    }
+  const createProductHandler = () => {
+    navigate("/admin/product/new/edit");
   };
 
-  const deleteProductHandler = async (productId) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      try {
-        await deleteProduct(productId);
-        refetch();
-        toast.success("Product deleted successfully");
-      } catch (error) {
-        toast.error(error?.data?.message || error.error);
-      }
+  const deleteProductHandler = async (product) => {
+    if (!window.confirm(`Delete ${product.name}? This cannot be undone.`)) {
+      return;
+    }
+    try {
+      await deleteProduct(product._id).unwrap();
+      refetch();
+      toast.success(`${product.name} was deleted`);
+    } catch (error) {
+      toast.error(error?.data?.message || error.error);
     }
   };
 
   return (
     <>
-      <Row>
-        <Col>
+      <div className="admin-page__header">
+        <div>
+          <p className="section-kicker">Admin</p>
           <h1>Products</h1>
-        </Col>
-        <Col>
-          <Button
-            variant="primary"
-            className="my-3"
-            onClick={createProductHandler}
-          >
-            <FaEdit /> Create Product
-          </Button>
-        </Col>
-      </Row>
-      {loadingCreate || (loadingDelete && <Loader />)}
+        </div>
+        <Button variant="success" onClick={createProductHandler}>
+          <FaPlus /> Create product
+        </Button>
+      </div>
+      {loadingDelete && <Loader />}
       {isLoading ? (
         <Loader />
       ) : error ? (
@@ -71,7 +57,7 @@ const ProductListPage = () => {
         </Message>
       ) : (
         <>
-          <Table striped bordered hover responsive className="table-sm">
+          <Table responsive className="admin-table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -99,13 +85,11 @@ const ProductListPage = () => {
                       </Button>
                     </Link>
                     <Button
-                      variant="danger"
+                      variant="outline-danger"
                       className="btn-sm"
-                      onClick={() => {
-                        deleteProductHandler(product._id);
-                      }}
+                      onClick={() => deleteProductHandler(product)}
                     >
-                      <FaTrash style={{ color: "white" }} />
+                      <FaTrash />
                     </Button>
                   </td>
                 </tr>

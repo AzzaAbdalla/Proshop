@@ -3,6 +3,15 @@
 
 A full-featured MERN stack e-commerce application with a shopping cart, user authentication, checkout, PayPal integration, admin panel, and more.
 
+## Demo admin login
+
+Use this account after the sample data is imported (`npm run data:import` from the project root):
+
+| | |
+|---|---|
+| **Email** | `Admin@email.com` |
+| **Password** | `12345` |
+
 ---
 
 ## 🚀 Features

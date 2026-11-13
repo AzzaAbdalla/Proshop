@@ -36,27 +36,76 @@ const getSingleProduct = asyncHandler(async (req, res) => {
 // @route POST /api/products
 // @access Private/Admin
 const createProduct = asyncHandler(async (req, res) => {
+  const name = req.body.name?.trim();
+  const description = req.body.description?.trim();
+  const image = req.body.image?.trim();
+  const brand = req.body.brand?.trim();
+  const category = req.body.category?.trim();
+  const price = Number(req.body.price);
+  const countInStock = Number(req.body.countInStock);
+
+  const missing = [
+    ["name", name],
+    ["description", description],
+    ["image", image],
+    ["brand", brand],
+    ["category", category],
+  ]
+    .filter(([, value]) => !value)
+    .map(([label]) => label);
+
+  if (missing.length) {
+    res.status(400);
+    throw new Error(`Please fill in: ${missing.join(", ")}`);
+  }
+  if (
+    !Number.isFinite(price) ||
+    price < 0 ||
+    !Number.isFinite(countInStock) ||
+    countInStock < 0 ||
+    !Number.isInteger(countInStock)
+  ) {
+    res.status(400);
+    throw new Error("Price and stock must be zero or greater");
+  }
+
   const product = new Product({
-    name: "name 1",
-    price: 0,
+    name,
+    price,
     user: req.user._id,
-    image: "/images/sample.jpg",
-    brand: "Sample Brand",
-    category: "Sample Category",
-    countInStock: 0,
-    description: "Sample Description",
+    image,
+    brand,
+    category,
+    countInStock,
+    description,
   });
   const createdProduct = await product.save();
-  res.json(createdProduct);
+  res.status(201).json(createdProduct);
 });
 
 // @desc Update all products
 // @route PUT /api/products/:id
 // @access Private/Admin
 const updateProduct = asyncHandler(async (req, res) => {
-  const { name, price, description, image, brand, category, countInStock } =
-    req.body;
+  const name = req.body.name?.trim();
+  const description = req.body.description?.trim();
+  const image = req.body.image?.trim();
+  const brand = req.body.brand?.trim();
+  const category = req.body.category?.trim();
+  const price = Number(req.body.price);
+  const countInStock = Number(req.body.countInStock);
   const product = await Product.findById(req.params.id);
+
+  if (
+    !Number.isFinite(price) ||
+    price < 0 ||
+    !Number.isFinite(countInStock) ||
+    countInStock < 0 ||
+    !Number.isInteger(countInStock)
+  ) {
+    res.status(400);
+    throw new Error("Price and stock must be zero or greater");
+  }
 
   if (product) {
     product.name = name;

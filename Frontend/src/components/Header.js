@@ -28,10 +28,10 @@ const Header = () => {
 
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="md" collapseOnSelect>
+      <Navbar expand="md" className="site-header" sticky="top" collapseOnSelect>
         <Container>
           <Navbar.Brand as={Link} to="/">
-            <img src={logo} alt="Proshop" />
+            <img src={logo} alt="" className="site-logo" />
             Proshop
           </Navbar.Brand>
 

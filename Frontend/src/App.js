@@ -52,9 +52,9 @@ const App = () => {
 
             <Route path="" element={<AdminRoute />}>
               <Route path="/admin/orderlist" element={<OrderListPage />} />
-              <Route path="/admin/productList" element={<ProductListPage />} />
+              <Route path="/admin/productlist" element={<ProductListPage />} />
               <Route
-                path="/admin/productList/:pageNumber"
+                path="/admin/productlist/:pageNumber"
                 element={<ProductListPage />}
               />
               <Route

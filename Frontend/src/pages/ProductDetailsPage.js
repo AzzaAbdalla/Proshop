@@ -78,27 +78,39 @@ const ProductDetailsPage = () => {
       ) : (
         <>
           <Meta title={product.name} />
-          <Row className="my-4">
+          <Link className="back-link" to="/">
+            <FaArrowLeft /> Back
+          </Link>
+          <Row className="product-detail g-4">
             <Col md={5}>
-              <Image src={product.image} alt={product.name} fluid />
+              <Image
+                src={
+                  product.image?.startsWith("/uploads")
+                    ? `http://localhost:5000${product.image}`
+                    : product.image
+                }
+                alt={product.name}
+                className="product-photo"
+                fluid
+              />
             </Col>
             <Col md={4}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <h3>{product.name}</h3>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Rating
-                    rating={product.rating}
-                    reviews={product.numReviews}
-                  />
-                </ListGroup.Item>
-                <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-                <ListGroup.Item>{product.description}</ListGroup.Item>
-              </ListGroup>
+              <div className="product-detail__info">
+                {product.category && (
+                  <p className="section-kicker">
+                    {product.category.replace(/-/g, " ")}
+                  </p>
+                )}
+                <h1>{product.name}</h1>
+                <Rating rating={product.rating} reviews={product.numReviews} />
+                <p className="product-detail__price">
+                  ${Number(product.price).toFixed(2)}
+                </p>
+                <p className="product-detail__desc">{product.description}</p>
+              </div>
             </Col>
             <Col md={3}>
-              <Card>
+              <Card className="buy-box">
                 <ListGroup>
                   <ListGroup.Item>
                     <Row>
@@ -110,7 +122,13 @@ const ProductDetailsPage = () => {
                     <Row>
                       <Col>Status: </Col>
                       <Col>
-                        {product.countInStock > 0 ? "In Stock" : "Out Of Stock"}
+                        {product.countInStock > 0 ? (
+                          "In stock"
+                        ) : (
+                          <span className="stock-label stock-label--inline">
+                            Out of stock
+                          </span>
+                        )}
                       </Col>
                     </Row>
                   </ListGroup.Item>
@@ -165,16 +183,6 @@ const ProductDetailsPage = () => {
           </Row>
         </>
       )}
-      <Row className="text-center">
-        <Col>
-          <Link
-            className="btn btn-light col-3 my-5 bg-success text-white"
-            to="/"
-          >
-            <FaArrowLeft /> Go Back
-          </Link>
-        </Col>
-      </Row>
       <Row className="review">
         <Col md={6}>
           <h2>Reviews</h2>

@@ -6,8 +6,10 @@ const Footer = () => {
     <footer>
       <Container>
         <Row>
-          <Col className="text-center py-3">
-            <p>Proshop &copy; {currentYear}</p>
+          <Col className="text-center py-4">
+            <p className="site-footer__brand">Proshop</p>
+            <p className="mb-1">Everyday tech, ready to ship.</p>
+            <p className="mb-0">Proshop &copy; {currentYear}</p>
           </Col>
         </Row>
       </Container>
